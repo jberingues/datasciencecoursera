@@ -37,5 +37,5 @@ AverageDataSet <- DataSet %>%
 
 #-----------------------------Save datasets-------------------------
 #Store data on disk
-write.table(DataSet, "Std_Mean selected UCI HAR Dataset.txt")
-write.table(AverageDataSet, "Std_Mean selected UCI HAR Dataset_avg.txt")
+write.table(DataSet, "Std_Mean selected UCI HAR Dataset.txt", row.name=FALSE)
+write.table(AverageDataSet, "Std_Mean selected UCI HAR Dataset_avg.txt", row.name=FALSE)
