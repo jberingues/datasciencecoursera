@@ -1,6 +1,7 @@
 #-------------------------------Libraries---------------------------
 library(tidyverse)
-#-----------------------------Read datasets-------------------------
+
+#-----------------------------Read files-------------------------
 #Read all data sets
 x_test <- read.table("UCI HAR Dataset/test/X_test.txt")
 y_test <- read.table("UCI HAR Dataset/test/y_test.txt")
@@ -10,6 +11,8 @@ y_train <- read.table("UCI HAR Dataset/train/y_train.txt")
 subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt")
 ColumnNames <- read.table("UCI HAR Dataset/features.txt")
 Activities <- read.table("UCI HAR Dataset/activity_labels.txt")
+
+#-----------------------------Operations-------------------------
 #Join data on one dataset
 x_global <- rbind(x_test, x_train)
 y_global <- rbind(y_test, y_train)
@@ -25,10 +28,14 @@ DataSet <- cbind(x_global, y_global, subject_global)
 DataSet <- DataSet %>%
     select(grep("std|mean",colnames(DataSet)), ActivityCode, Subject) %>%
     left_join(Activities, by = "ActivityCode")
+
+#-----------------------------New dataset-------------------------
 #Create independent dataset with the average of each variable for each activity and each subject
 AverageDataSet <- DataSet %>%
     group_by(Activity, Subject) %>%
     summarise_all(funs(mean))
+
+#-----------------------------Save datasets-------------------------
 #Store data on disk
 write.table(DataSet, "Std_Mean selected UCI HAR Dataset.txt")
 write.table(AverageDataSet, "Std_Mean selected UCI HAR Dataset_avg.txt")
